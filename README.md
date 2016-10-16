@@ -21,10 +21,12 @@
 ```
 ### Installation
 
+Download [ip.cs](https://github.com/n9774b/C--IPV4Tools/blob/master/ip.cs)
+
 For VisualStudio
 - Right click on your project name in the solution explorer
-- Mouse over 'Add' then select 'New Item'
-- Select Class and name it 'ip.cs'
+- Mouse over 'Add' then select 'Existing Item'
+- Browse to where you saved [ip.cs](https://github.com/n9774b/C--IPV4Tools/blob/master/ip.cs) and select it
 - Click 'Ok'
 - Done, You can now use this script.
 
