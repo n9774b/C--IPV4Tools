@@ -17,6 +17,7 @@
 | Check if a host is alive                   :     bool    |   ip.isAlive(IPAddress <IP_To_Check>, int <Timeout_For_Ping_In_ms>)                 |
 | First Useable Address                      :    string   |   ip.firstUseableAddress(string <Network_Address>)                                  |
 | Last Useable Address                       :    string   |   ip.lastUseableAddress(string <Broadcast_Address>)                                 |
+| Detects Internet Accessable Interfaces     : IPAddress[] |   ip.detectAliveInterface()                                                         |
 +--------------------------------------------+-------------+-------------------------------------------------------------------------------------+
 ```
 ### Installation
