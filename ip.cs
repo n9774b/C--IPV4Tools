@@ -12,6 +12,52 @@ public class ip
         return (ipToInt(broadcastAddr) - ipToInt(networkAddr) + 1);
     }
 
+    public static IPAddress detectWifiInterface()
+    {
+        foreach (NetworkInterface face in NetworkInterface.GetAllNetworkInterfaces())
+        {
+            if (face.OperationalStatus == OperationalStatus.Up && face.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
+            {
+                foreach (UnicastIPAddressInformation ip in face.GetIPProperties().UnicastAddresses)
+                {
+                    if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        if (Dns.GetHostEntry(ip.Address).HostName == Dns.GetHostEntry("127.0.0.1").HostName)
+                        {
+                            return ip.Address;
+                        }
+                    }
+                }
+            }
+        }
+        throw new ArgumentException("No Valid WiFi Interfaces Found!");
+    }
+
+    public static IPAddress[] detectAliveInterface()
+    {
+        if (NetworkInterface.GetIsNetworkAvailable())
+        {
+            NetworkInterface[] faces = NetworkInterface.GetAllNetworkInterfaces();
+            List<NetworkInterface> aFaces = new List<NetworkInterface>();
+            List<IPAddress> ips = new List<IPAddress>();
+            foreach (NetworkInterface face in faces)
+            {
+                if ((face.OperationalStatus == OperationalStatus.Up) && ((face.NetworkInterfaceType != NetworkInterfaceType.Tunnel) && (face.NetworkInterfaceType != NetworkInterfaceType.Loopback)) && ((face.GetIPv4Statistics().BytesReceived > 0) && (face.GetIPv4Statistics().BytesSent > 0)))
+                {
+                    foreach (IPAddressInformation x in face.GetIPProperties().UnicastAddresses)
+                    {
+                        if (x.Address.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            ips.Add(x.Address);
+                        }
+                    }
+                }
+            }
+            return ips.ToArray();
+        }
+        throw new ArgumentException("No Valid Interfaces Found!");
+    }
+
     public static IPAddress getSubnetmask(IPAddress ip)
     {
         foreach (NetworkInterface face in NetworkInterface.GetAllNetworkInterfaces())
